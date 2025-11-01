@@ -1,5 +1,7 @@
-import tensorflow as tf
 import argparse
+
+import tensorflow as tf
+
 
 @tf.function
 def calculate_rotation(x, y, angle):
@@ -12,7 +14,8 @@ def calculate_rotation(x, y, angle):
         ]
     )
     rotated_point = tf.matmul(rotation_matrix, point)
-    return tf.reshape(rotated_point, shape=(2,))
+    return rotated_point
+
 
 def create_parser():
     new_parser = argparse.ArgumentParser(
@@ -25,10 +28,14 @@ def create_parser():
     new_parser.add_argument("-t", "--theta")
     return new_parser
 
+
 if __name__ == "__main__":
     parser = create_parser()
     command_args = parser.parse_args()
-    x, y, theta = float(command_args.x_coordinate), float(command_args.y_coordinate), float(command_args.theta)
+    x, y, theta = (
+        float(command_args.x_coordinate),
+        float(command_args.y_coordinate),
+        float(command_args.theta),
+    )
 
     print(calculate_rotation(x, y, theta))
-
