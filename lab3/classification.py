@@ -30,14 +30,7 @@ def create_parser() -> argparse.ArgumentParser:
             "Hue",
             "OD280_OD315_of_diluted_wines",
             "Proline",
-        ),
-        help=(
-            "Thirteen feature values of a single wine sample. "
-            "If provided, Model 1 will classify this wine after training. "
-            "Order: Alcohol Malic_acid Ash Alcalinity_of_ash Magnesium "
-            "Total_phenols Flavanoids Nonflavanoid_phenols Proanthocyanins "
-            "Color_intensity Hue OD280/OD315_of_diluted_wines Proline"
-        ),
+        )
     )
     return parser
 
@@ -64,7 +57,6 @@ if __name__ == "__main__":
 
     df = pd.read_csv("wine/wine.data", header=None, names=cols)
     df_shuffled = df.sample(frac=1).reset_index(drop=True)
-    # print(df_shuffled)
     wineClasses = df_shuffled["Class"].values
     hotOneWineClasses = tf.one_hot(wineClasses, 3)
 
@@ -278,6 +270,7 @@ if __name__ == "__main__":
         ]
 
         wine_features = np.array(args.wine, dtype=np.float32).reshape(1, 13)
+        print("Wine features:", wine_features)
 
         probs = model_1.predict(wine_features)
         predicted_class_index = int(np.argmax(probs[0]))
